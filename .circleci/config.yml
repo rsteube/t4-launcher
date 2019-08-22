@@ -1,0 +1,13 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/android:api-28
+    steps:
+      - run:
+          name: install gradle
+          command: sudo apt-get update && sudo apt-get install gradle
+      - checkout
+      - run:
+          name: build
+          command: gradle build
