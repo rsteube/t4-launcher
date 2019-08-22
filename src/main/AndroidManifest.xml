@@ -1,0 +1,22 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.github.rsteube.t4">
+
+    <application
+    android:icon="@mipmap/ic_launcher"
+    android:label="T4 Launcher"
+                 android:excludeFromRecents="true"
+                 android:clearTaskOnLaunch="true"
+                 android:stateNotNeeded="true"
+                 android:theme="@android:style/Theme.Black.NoTitleBar"
+                 android:allowBackup="false">
+        <activity android:name=".T4Launcher" android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.HOME"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
