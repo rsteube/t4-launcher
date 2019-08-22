@@ -19,6 +19,7 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt')
         }
     }
     sourceSets["main"].java.srcDir("src/main/kotlin")
