@@ -1,4 +1,5 @@
 # T4 Launcher
+[![CircleCI](https://circleci.com/gh/rsteube/t4-launcher.svg?style=svg)](https://circleci.com/gh/rsteube/t4-launcher)
 
 Android Launcher simply consisting of a scrollable list af apps with [predictive text](https://en.wikipedia.org/wiki/Predictive_text) filtering using 4 Buttons.
 
