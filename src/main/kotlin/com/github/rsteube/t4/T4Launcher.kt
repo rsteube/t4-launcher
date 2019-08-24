@@ -3,6 +3,7 @@ package com.github.rsteube.t4
 import android.app.Activity
 import android.graphics.Color
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.Button
@@ -52,6 +53,12 @@ class T4Launcher : Activity() {
     override fun onBackPressed() {
         filter.removeLast()
     }
+
+    override fun onKeyLongPress(keyCode: Int, event: KeyEvent?) =
+        when (keyCode) {
+            KeyEvent.KEYCODE_BACK -> true.also { adapter.reload() }
+            else -> super.onKeyLongPress(keyCode, event)
+        }
 
     override fun onResume() {
         super.onResume()

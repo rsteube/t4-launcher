@@ -55,7 +55,7 @@ class LauncherAdapter(context: Context, private val filter: RegexFilter) :
         }
     }
 
-    private fun reload() {
+    fun reload() {
         launchers = queryLaunchers()
         performFiltering()
     }
