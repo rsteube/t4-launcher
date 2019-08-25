@@ -10,4 +10,10 @@ jobs:
       - checkout
       - run:
           name: build
-          command: gradle build
+          command: gradle assembleRelease
+      - run:
+          name: test
+          command: "find . -name *.apk"
+      - store_artifacts:
+          path: build/outputs/apk/release/t4-launcher-release-unsigned.apk
+
