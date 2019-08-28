@@ -1,0 +1,1 @@
+Simple launcher consisting of a scrollable list af apps with [https://en.wikipedia.org/wiki/Predictive_text predictive text] filtering using 4 buttons.

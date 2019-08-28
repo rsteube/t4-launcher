@@ -3,7 +3,7 @@
 
 Android Launcher simply consisting of a scrollable list af apps with [predictive text](https://en.wikipedia.org/wiki/Predictive_text) filtering using 4 Buttons.
 
-![](sample.png)
+![](fastlane/metadata/android/en-US/images/phoneScreenshots/sample.png)
 
 _Example for input `[A_F][A_F][S_Z][S_Z]`_
 - short press launches app
