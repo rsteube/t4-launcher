@@ -5,7 +5,7 @@ Android Launcher simply consisting of a scrollable list of apps with [predictive
 
 ![](fastlane/metadata/android/en-US/images/phoneScreenshots/sample.png)
 
-_Example for input `[A_F][A_F][S_Z][S_Z]`_
+_Example for input `[A_F][G_L][M_R][S_Z]`_
 - short press launches app
 - long press opens app settings
 - back button removes last input
