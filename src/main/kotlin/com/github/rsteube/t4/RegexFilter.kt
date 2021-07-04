@@ -40,7 +40,7 @@ class RegexFilter : Observable() {
         A_F, G_L, M_R, S_Z;
 
         val value = with(name.replace('_', '-')) {
-            "([${toLowerCase()}]|[${toUpperCase()}])\\W*"
+            "([${toLowerCase()}]|[${toUpperCase()}])(\\W|[0-9_])*"
         }
     }
 
