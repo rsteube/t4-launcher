@@ -68,7 +68,7 @@ class LauncherAdapter(context: Context, private val filter: RegexFilter) :
             ).addCategory(Intent.CATEGORY_LAUNCHER), 0)
         .map { Launcher(it.loadLabel(context.packageManager) as String, it.activityInfo.packageName) }
         .filterNot { it.pkg in listOf("com.android.settings", context.packageName) }
-        .sortedBy { it.label.toLowerCase() }
+        .sortedBy { it.label.toLowerCase() + it.pkg}
 
     data class Launcher(val label: String, val pkg: String)
 }
