@@ -3,11 +3,13 @@ package com.github.rsteube.t4
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.provider.Settings
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import java.util.*
 
 class LauncherAdapter(context: Context, private val filter: RegexFilter) :
     ArrayAdapter<LauncherAdapter.Launcher>(context, android.R.layout.simple_list_item_1, mutableListOf()) {
@@ -60,15 +62,21 @@ class LauncherAdapter(context: Context, private val filter: RegexFilter) :
         performFiltering()
     }
 
-    private fun queryLaunchers() = context.packageManager
-        .queryIntentActivities(
+    private fun queryLaunchers() = context.apply{
+        context.resources.configuration.locale = Locale.CHINESE
+          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1){
+        context.resources.configuration.setLocale(Locale.CHINESE)
+    } else{
+        context.resources.configuration.locale=Locale.CHINESE
+    }
+    }.packageManager.queryIntentActivities(
             Intent(
                 Intent.ACTION_MAIN,
                 null
             ).addCategory(Intent.CATEGORY_LAUNCHER), 0)
         .map { Launcher(it.loadLabel(context.packageManager) as String, it.activityInfo.packageName) }
         .filterNot { it.pkg in listOf("com.android.settings", context.packageName) }
-        .sortedBy { it.label.toLowerCase() + it.pkg}
+        .sortedBy { it.label.toLowerCase(Locale.ROOT) + it.pkg }
 
     data class Launcher(val label: String, val pkg: String)
 }
