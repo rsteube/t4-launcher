@@ -3,11 +3,13 @@ package com.github.rsteube.t4
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.provider.Settings
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import java.util.*
 
 class LauncherAdapter(context: Context, private val filter: RegexFilter) :
     ArrayAdapter<LauncherAdapter.Launcher>(context, android.R.layout.simple_list_item_1, mutableListOf()) {

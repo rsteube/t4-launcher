@@ -2,6 +2,7 @@ package com.github.rsteube.t4
 
 import android.app.Activity
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
 import android.widget.ListView
 import android.widget.Space
+import java.util.*
 
 class T4Launcher : Activity() {
     private lateinit var adapter: LauncherAdapter
@@ -18,6 +20,25 @@ class T4Launcher : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+
+        val config = resources.configuration
+        val lang = "zh" // your language code
+        val locale = Locale(lang)
+        Locale.setDefault(locale)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
+            config.setLocale(locale)
+        else
+            config.locale = locale
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            createConfigurationContext(config)
+        resources.updateConfiguration(config, resources.displayMetrics)
+
+
+
+
 
         adapter = LauncherAdapter(this, filter)
         setContentView(
