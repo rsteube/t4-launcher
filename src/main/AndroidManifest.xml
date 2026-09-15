@@ -1,5 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.github.rsteube.t4">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
     android:icon="@mipmap/ic_launcher"
@@ -9,7 +8,7 @@
                  android:stateNotNeeded="true"
                  android:theme="@android:style/Theme.Black.NoTitleBar"
                  android:allowBackup="false">
-        <activity android:name=".T4Launcher" android:launchMode="singleTask">
+        <activity android:name=".T4Launcher" android:exported="true" android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.ASSIST" />
                 <action android:name="android.intent.action.MAIN" />

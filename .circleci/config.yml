@@ -2,18 +2,22 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/android:api-28
+      - image: cimg/openjdk:21.0
+    environment:
+      ANDROID_HOME: /home/circleci/android-sdk
     steps:
       - run:
-          name: install gradle
-          command: sudo apt-get update && sudo apt-get install gradle
+          name: install android sdk
+          command: |
+            mkdir -p $ANDROID_HOME/cmdline-tools
+            curl -sSL https://dl.google.com/android/repository/commandlinetools-linux-16111833_latest.zip -o /tmp/tools.zip
+            unzip -q /tmp/tools.zip -d $ANDROID_HOME/cmdline-tools
+            mv $ANDROID_HOME/cmdline-tools/cmdline-tools $ANDROID_HOME/cmdline-tools/latest
+            yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null
+            $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platforms;android-36" "build-tools;36.0.0" "platform-tools"
       - checkout
       - run:
           name: build
-          command: gradle assembleRelease
-      - run:
-          name: test
-          command: "find . -name *.apk"
+          command: ./gradlew assembleRelease
       - store_artifacts:
           path: build/outputs/apk/release/t4-launcher-release-unsigned.apk
-

@@ -4,8 +4,6 @@
 .project
 .settings/
 build
-gradle
-gradlew
-gradlew.bat
 local.properties
 release/
+.crush/
