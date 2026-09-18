@@ -8,6 +8,7 @@ import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.window.OnBackInvokedDispatcher
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
@@ -21,13 +22,18 @@ class T4Launcher : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            onBackInvokedDispatcher.registerOnBackInvokedCallback(
+                OnBackInvokedDispatcher.PRIORITY_DEFAULT
+            ) { filter.removeLast() }
+        }
         adapter = LauncherAdapter(this, filter)
         setContentView(
             LinearLayout(this).apply {
                 orientation = LinearLayout.VERTICAL
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
                     setOnApplyWindowInsetsListener { view, insets ->
-                        view.setPadding(0, 0, 0, insets.systemWindowInsetBottom)
+                        view.setPadding(0, insets.systemWindowInsetTop, 0, insets.systemWindowInsetBottom)
                         insets
                     }
                 } else {
