@@ -4,6 +4,7 @@ import android.app.Activity
 import android.graphics.Color
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.MotionEvent
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.Button
@@ -29,6 +30,19 @@ class T4Launcher : Activity() {
                     id = android.R.id.list
                     divider = null
                     adapter = this@T4Launcher.adapter
+                    var pullStartY = 0f
+                    setOnTouchListener { view, event ->
+                        when (event.action) {
+                            MotionEvent.ACTION_DOWN -> pullStartY = event.rawY
+                            MotionEvent.ACTION_UP -> {
+                                val atTop = firstVisiblePosition == 0 && (getChildAt(0)?.top ?: 0) >= 0
+                                if (atTop && event.rawY - pullStartY > 100 * view.resources.displayMetrics.density) {
+                                    this@T4Launcher.adapter.reload()
+                                }
+                            }
+                        }
+                        false
+                    }
                 })
                 addView(Space(this@T4Launcher).apply { layoutParams = ViewGroup.LayoutParams(MATCH_PARENT, 50) })
                 addView(
