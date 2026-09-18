@@ -5,5 +5,6 @@ Simple launcher consisting of a scrollable list of apps with <a href="https://en
 - back button removes last input
 - home button clears input
 - long press back button reloads list
+- pull down at top of list reloads list
 
 <em>Example for input <code>[A_F][A_F][S_Z][S_Z]</code></em>

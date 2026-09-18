@@ -2,10 +2,13 @@ package com.github.rsteube.t4
 
 import android.app.Activity
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.MotionEvent
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.window.OnBackInvokedDispatcher
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
@@ -19,18 +22,43 @@ class T4Launcher : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            onBackInvokedDispatcher.registerOnBackInvokedCallback(
+                OnBackInvokedDispatcher.PRIORITY_DEFAULT
+            ) { filter.removeLast() }
+        }
         adapter = LauncherAdapter(this, filter)
         setContentView(
             LinearLayout(this).apply {
                 orientation = LinearLayout.VERTICAL
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+                    setOnApplyWindowInsetsListener { view, insets ->
+                        view.setPadding(0, insets.systemWindowInsetTop, 0, insets.systemWindowInsetBottom)
+                        insets
+                    }
+                } else {
+                    addView(Space(this@T4Launcher).apply { layoutParams = ViewGroup.LayoutParams(MATCH_PARENT, 50) })
+                }
                 addView(ListView(this@T4Launcher).apply {
                     layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT, 2f)
                     isVerticalScrollBarEnabled = false
                     id = android.R.id.list
                     divider = null
                     adapter = this@T4Launcher.adapter
+                    var pullStartY = 0f
+                    setOnTouchListener { view, event ->
+                        when (event.action) {
+                            MotionEvent.ACTION_DOWN -> pullStartY = event.rawY
+                            MotionEvent.ACTION_UP -> {
+                                val atTop = firstVisiblePosition == 0 && (getChildAt(0)?.top ?: 0) >= 0
+                                if (atTop && event.rawY - pullStartY > 100 * view.resources.displayMetrics.density) {
+                                    this@T4Launcher.adapter.reload()
+                                }
+                            }
+                        }
+                        false
+                    }
                 })
-                addView(Space(this@T4Launcher).apply { layoutParams = ViewGroup.LayoutParams(MATCH_PARENT, 50) })
                 addView(
                     LinearLayout(this@T4Launcher).apply {
                         RegexFilter.Pattern.values().forEach { pattern ->
