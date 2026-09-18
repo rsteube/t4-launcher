@@ -2,6 +2,7 @@ package com.github.rsteube.t4
 
 import android.app.Activity
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.MotionEvent
@@ -24,6 +25,14 @@ class T4Launcher : Activity() {
         setContentView(
             LinearLayout(this).apply {
                 orientation = LinearLayout.VERTICAL
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+                    setOnApplyWindowInsetsListener { view, insets ->
+                        view.setPadding(0, 0, 0, insets.systemWindowInsetBottom)
+                        insets
+                    }
+                } else {
+                    addView(Space(this@T4Launcher).apply { layoutParams = ViewGroup.LayoutParams(MATCH_PARENT, 50) })
+                }
                 addView(ListView(this@T4Launcher).apply {
                     layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT, 2f)
                     isVerticalScrollBarEnabled = false
@@ -44,7 +53,6 @@ class T4Launcher : Activity() {
                         false
                     }
                 })
-                addView(Space(this@T4Launcher).apply { layoutParams = ViewGroup.LayoutParams(MATCH_PARENT, 50) })
                 addView(
                     LinearLayout(this@T4Launcher).apply {
                         RegexFilter.Pattern.values().forEach { pattern ->
